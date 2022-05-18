@@ -1,24 +1,26 @@
-import logo from './logo.svg';
+import { SocketContext, socket } from './context/SocketContext';
 import './App.css';
+import ChatName from './components/ChatName';
+import { useEffect, useState } from 'react';
+import Chat from './components/Chat';
 
 function App() {
+  const [name, setName] = useState();
+
+  const handleName = (enteredName) => {
+    setName(enteredName)
+  }
+  useEffect(() => {
+    socket.on('connect', () => {
+        console.log(socket.id)
+    })
+    return () => socket.removeAllListeners();
+  }, [socket])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <SocketContext.Provider value={socket}>
+        <h1 className='box' style={{backgroundColor: "gray"}}>MERN Chat</h1>
+        {name?<Chat/>: <ChatName onSubmit={handleName}/>}
+    </SocketContext.Provider>
   );
 }
 
