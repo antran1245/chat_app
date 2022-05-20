@@ -1,8 +1,9 @@
 export default (props) => {
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         props.onSubmit()
+        e.target.reset();
     }
     return(
         <form onSubmit={handleSubmit}>

@@ -13,4 +13,8 @@ io.on("connection", socket => {
         console.log('user left', socket.id)
         socket.on('leave', data => console.log(data))
     })
+    socket.on('chat message', (data) => {
+        console.log(data)
+        socket.emit('chat message', data)
+    })
 })
